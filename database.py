@@ -25,7 +25,6 @@ def init_db():
             quantity INTEGER NOT NULL,
             category TEXT NOT NULL,
             location TEXT NOT NULL)
-            )
         ''')
         conn.commit()
 
@@ -52,12 +51,11 @@ def seed_db():
             ''', sample_parts)
             conn.commit()
 
-
 # This is the Data Access Layer (DAL) for the inventory database i just have created.
 def get_part(name: str):
     with get_connection() as conn:
         row = conn.execute(
-            "SELECT * FROM parts WHERE (LOWER)name = LOWER(?)", (name,)).fetchone()
+            "SELECT * FROM parts WHERE LOWER(name) = LOWER(?)", (name,)).fetchone()
         return dict(row) if row else None
 
 
@@ -78,7 +76,6 @@ def update_quantity(pname: str, delta: int):
         conn.execute(
             "UPDATE parts SET quantity = quantity + ? WHERE LOWER(name) = LOWER(?)", (delta, pname))
         conn.commit()
-
 
 if __name__ == "__main__":
     init_db()
