@@ -1,5 +1,9 @@
 # CURT Inventory Assistant
 
+![CURT Inventory Assistant - Frontend](assets/app_final_frontend.png)
+
+A conversational assistant for the Cairo University Racing Team (CURT) parts inventory...
+
 A conversational assistant for the Cairo University Racing Team (CURT) parts inventory, built for the Generative AI Team technical task (Season 26-27). Team members can ask natural questions like *"How many brake pads do we have?"* or *"Where is the ECU stored?"* and get accurate answers pulled live from a real database.
 
 The project is built in two stages:
