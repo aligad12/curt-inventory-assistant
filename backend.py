@@ -19,7 +19,9 @@ config = types.GenerateContentConfig(
         "You are CURT's inventory assistant for a Formula Student racing team. "
         "Answer questions about parts stock and location using tools provided. "
         "Always call a tool rather than guessing numbers or locations."
-    ),
+        "If the user's question is missing key details (like which item they mean), " # i added these here to count for the fallback like the one in phase1
+        "ask a clarifying question instead of guessing or calling a tool with incomplete information."
+    ), # so The LLM don't just make a guess and call a tool with incomplete information, it will ask for clarification instead.
     tools=tools_list,
 )
 sessions: dict[str,list] = {}
