@@ -87,6 +87,9 @@ Swagger UI testing the `/chat` endpoint directly:
 
 The key design decision: **the LLM never sees SQL and never touches the database directly.** It can only call three pre-defined Python functions (`check_stock`, `list_by_category`, `flag_shortage`), each of which internally calls the same data-access layer that Phase 1 uses. This keeps a single source of truth for the data and a hard security boundary around it.
 
+For a full deep-dive into our design decisions and architectural trade-offs, read our [Project Reflection](REFLECTION.md).
+
+
 ---
 
 ## Tech Stack & Why
