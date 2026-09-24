@@ -7,6 +7,7 @@ from phase1_assistant import answer_question as phase1_answer
 from database import get_all_parts
 
 st.set_page_config(page_title="CURT Inventory Assistant", layout="wide")
+st.image("assets/curt_logo_1.png", use_container_width=True)
 
 BACKEND_URL = "http://127.0.0.1:8000"
 

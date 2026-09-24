@@ -4,6 +4,7 @@ from google import genai
 from fastapi import FastAPI
 from pydantic import BaseModel
 from google.genai import types
+from google.genai.errors import APIError
 
 from database import get_all_parts
 from tools import check_stock, list_by_category, flag_shortage
@@ -48,5 +49,12 @@ def chat(req: ChatRequest):
             model="gemini-3.6-flash",
             config=config
         )
-    response = sessions[req.session_id].send_message(req.message)
-    return ChatResponse(reply=response.text)
+
+    chat_session = sessions[req.session_id]
+    try:
+        response = chat_session.send_message(req.message)
+        return ChatResponse(reply=response.text)
+    except APIError as e:
+        if getattr(e, "code", None) == 429:
+            return ChatResponse(reply="I'm getting a lot of requests right now — please wait a few seconds and try again.")
+        return ChatResponse(reply="The AI service is temporarily unavailable — please try again in a moment.")
