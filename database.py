@@ -1,5 +1,7 @@
 import sqlite3
 from contextlib import contextmanager
+from difflib import get_close_matches
+
 
 DB_NAME = "curt_inventory.db"
 
@@ -51,12 +53,28 @@ def seed_db():
             ''', sample_parts)
             conn.commit()
 
+
+def find_closest_part(name: str):
+    """If an exact match fails, try to find the closest matching part name."""
+    all_names = [p["name"] for p in get_all_parts()]
+    matches = get_close_matches(name,all_names,n=1,cutoff=0.6)
+    if matches:
+        return get_part(matches[0])
+    # Also try a simple substring check for partial names (e.g. "brake")
+    for p in get_all_parts():
+        if name.lower() in p["name"].lower():
+            return p
+    return None
+
+
 # This is the Data Access Layer (DAL) for the inventory database i just have created.
 def get_part(name: str):
     with get_connection() as conn:
         row = conn.execute(
             "SELECT * FROM parts WHERE LOWER(name) = LOWER(?)", (name,)).fetchone()
-        return dict(row) if row else None
+        if row:
+            return dict(row)
+        return find_closest_part(name) # this is the modification to try and get the closest part to handle the edge cases
 
 
 def get_by_category(category: str):
