@@ -135,7 +135,7 @@ curt-inventory-assistant/
 
 ### 1. Clone the repository
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/aligad12/curt-inventory-assistant
 cd curt-inventory-assistant
 ```
 
